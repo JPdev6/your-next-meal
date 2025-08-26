@@ -1,0 +1,395 @@
+:root{
+  --bg:#130f40;        /* deep indigo background */
+  --fg:#f3f4f6;
+  --muted:#a3a3a3;
+
+  --box: clamp(240px, 62vw, 420px); /* responsive square for Lottie */
+
+  --btn-bg:#1e293b;
+  --btn-fg:#e5e7eb;
+  --btn-shadow:0 6px 20px rgba(0,0,0,.35);
+
+  --radius-pill:999px;
+}
+
+*{ box-sizing: border-box; }
+html, body, #root { height: 100%; }
+body{
+  margin:0;
+  background: var(--bg);
+  color: var(--fg);
+  font:16px/1.5 ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Layout */
+.page{
+  min-height:100svh;
+  display:grid;
+  grid-template-rows:auto 1fr;
+  justify-items:center;
+  align-items:start;
+  gap:28px;
+  padding:40px 16px 32px;
+}
+
+.title{
+  margin:0;
+  font-weight:800;
+  letter-spacing:.2px;
+  font-size: clamp(28px, 5vw, 44px);
+  color:#fff;
+  text-shadow:0 2px 24px rgba(255,255,255,.06);
+}
+
+/* Centered stage */
+.center{
+  width:100%;
+  display:grid;
+  justify-items:center;
+  align-content:center;
+  gap:18px;
+}
+
+/* Responsive square for Lottie */
+.lottie-wrap{
+  width: var(--box);
+  aspect-ratio: 1 / 1;
+  display:grid;
+  place-items:center;
+  filter:
+    drop-shadow(0 30px 80px rgba(0,0,0,.65))
+    drop-shadow(0 8px 16px rgba(0,0,0,.4));
+}
+
+/* Controls */
+.controls{
+  display:grid;
+  gap:14px;
+  justify-items:center;
+}
+
+.btn{
+  appearance:none;
+  border:0;
+  cursor:pointer;
+  padding:10px 18px;
+  border-radius: var(--radius-pill);
+  font-weight:600;
+  letter-spacing:.2px;
+  transition: transform .15s ease, box-shadow .15s ease, opacity .2s ease;
+  will-change: transform, box-shadow;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width:120px;
+}
+
+.btn + .btn {
+  margin-left: 10px;
+}
+
+.btn-primary{
+  background: var(--btn-bg);
+  color: var(--btn-fg);
+  box-shadow: var(--btn-shadow);
+}
+.btn-primary:hover{ transform: translateY(-1px); color:black; }
+.btn-primary:active{ transform: translateY(0); }
+
+/* Ghost button */
+.btn-ghost{
+  background: transparent;
+  color: var(--muted);
+  border: 1px solid #1f2937;
+  padding: 8px 14px;
+}
+.btn-ghost:hover{ color:#d1d5db; border-color:#374151; }
+
+/* Table */
+.table-wrap {
+  max-height: 40vh;
+  overflow:auto;
+  margin-top: 20px;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.05);
+}
+.meal-table {
+  width:100%;
+  border-collapse:collapse;
+  font-size:14px;
+}
+.meal-table th, .meal-table td {
+  padding:8px 10px;
+  border-bottom:1px solid rgba(255,255,255,.1);
+  vertical-align: middle;
+}
+.meal-table th {
+  text-align:left;
+  font-weight:600;
+  color:var(--muted);
+}
+.meal-table tr:hover td {
+  background:rgba(255,255,255,.06);
+}
+
+/* meal actions */
+.meal-actions {
+  display: flex;
+  gap: 8px;
+}
+.meal-actions .btn {
+  font-size: 13px;
+  padding: 6px 14px;
+}
+
+/* Suggestion Box */
+.suggestion-box {
+  margin-top: 20px;
+  text-align: center;
+}
+.suggestion-text {
+  font-size: 1.5rem;
+  font-style: italic;
+  font-family: "Comic Sans MS", "Segoe Script", cursive;
+  color: #f1c40f;
+  line-height: 1.6;
+  font-weight: 500;
+}
+.suggestion-text::before,
+.suggestion-text::after {
+  content: '"';
+  font-size: 2rem;
+  vertical-align: top;
+  color: #f9d71c;
+}
+.tip-text {
+  margin-top: 10px;
+  font-size: 1rem;
+  color: #eee;
+}
+
+/* -------- MODALS -------- */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.65);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+.modal {
+  background: #1e293b;
+  color: var(--fg);
+  padding: 24px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 420px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  animation: popIn .25s ease;
+}
+.modal h2 {
+  margin-top: 0;
+  margin-bottom: 16px;
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 20px;
+}
+@keyframes popIn {
+  from { transform: scale(0.9); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+/* General buttons */
+button,
+.button {
+  display: inline-block;
+  padding: 10px 18px;
+  margin: 6px;
+  font-size: 15px;
+  font-weight: 600;
+  border: none;
+  border-radius: var(--radius-pill);
+  background-color: #4CAF50;
+  color: white;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  min-width: 120px;
+  text-align: center;
+}
+button:hover,
+.button:hover {
+  background-color: #66bb6a;
+  color: black;
+}
+button.danger,
+.button.danger,
+button.delete-btn {
+  background-color: #e74c3c;
+  border-radius: var(--radius-pill);
+  padding: 8px 16px;
+}
+button.danger:hover,
+.button.danger:hover,
+button.delete-btn:hover {
+  background-color: #ff6659;
+  color: black;
+}
+button:active,
+button:focus {
+  background: #ffcc00 !important;
+  color: #111 !important;
+  outline: none;
+}
+
+/* === Language Toggle === */
+.lang-switch {
+  position: fixed;
+  top: 12px;
+  right: 12px;
+  z-index: 2000;
+  display: inline-flex;
+  gap: 8px;
+  padding: 6px;
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 9999px;
+}
+.lang-switch .lang-btn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 12px;
+  font-size: 14px;
+  font-weight: 600;
+  color: white;
+  background: transparent;
+  border: none;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+.lang-switch .lang-btn .flag {
+  font-size: 16px;
+}
+.lang-switch .lang-btn.active {
+  background: #facc15;
+  color: black;
+}
+.lang-switch .lang-btn.active:nth-child(2) {
+  background: #22c55e;
+  color: white;
+}
+.lang-switch .lang-btn:hover:not(.active) {
+  background: rgba(255, 255, 255, 0.15);
+}
+.lang-switch .lang-btn:active {
+  transform: scale(0.95);
+}
+
+/* --- Recipe Section --- */
+.recipe-section {
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.recipe-section h3 {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* --- Section Titles --- */
+.recipe-section.akis h3 {
+  color: #f43f5e; /* κόκκινο για Άκη */
+}
+
+.recipe-section.argiro h3 {
+  color: #9333ea; /* μωβ για Αργυρώ */
+}
+
+/* --- Grid Layout --- */
+.recipe-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;   /* στο κέντρο */
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+/* --- Cards --- */
+.recipe-card {
+  flex: 0 1 260px;
+  max-width: 280px;
+  background: #1e293b;
+  border-radius: 16px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.3);
+  padding: 1rem;
+  text-align: center;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.recipe-card:hover {
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 10px 22px rgba(0,0,0,0.45);
+}
+
+/* --- Images --- */
+.recipe-img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+/* --- Titles --- */
+.recipe-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin: 0.8rem 0 0.5rem;
+  color: white;
+}
+
+.recipe-title a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.recipe-title a:hover {
+  color: #38bdf8; /* ωραίο γαλάζιο hover */
+}
+
+/* --- Snippet --- */
+.recipe-snippet {
+  font-size: 0.9rem;
+  color: #cbd5e1;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* --- Fallback Message --- */
+.fallback-msg {
+  font-size: 1rem;
+  font-style: italic;
+  color: #facc15; /* κίτρινο */
+  margin: 1rem 0;
+  text-align: center;
+}

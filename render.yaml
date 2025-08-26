@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: your-next-meal
+    env: node
+    plan: free
+    buildCommand: >
+      npm --prefix frontend ci &&
+      npm --prefix frontend run build &&
+      npm --prefix backend ci
+    startCommand: node backend/server.js
+    envVars:
+      - key: NODE_VERSION
+        value: 20
+      # Toggle CORS only if you really need it
+      - key: ENABLE_CORS
+        value: "0"
