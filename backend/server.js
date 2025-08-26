@@ -183,7 +183,6 @@ app.post("/suggest", async (req, res) => {
   }
 });
 
-import rateLimit from "express-rate-limit";
 
 // Όριο 20 requests ανά IP κάθε 24 ώρες
 const limiter = rateLimit({
