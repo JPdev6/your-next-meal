@@ -52,7 +52,7 @@ export default function App() {
     setCooldown(true);
     try {
       // 🔹 Fetch suggestion + tip
-      const res = await fetch("http://localhost:5175/suggest", {
+      const res = await fetch("https://your-next-meal.onrender.com/suggest", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -69,7 +69,7 @@ export default function App() {
 
       // 🔹 Fetch recipes from Google API
       if (data.suggestion) {
-        const recipeRes = await fetch("http://localhost:5175/recipes", {
+        const recipeRes = await fetch("https://your-next-meal.onrender.com/recipes", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ query: data.suggestion }),
