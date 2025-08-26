@@ -14,24 +14,21 @@ export default function MealsModal({
   const { t } = useTranslation();
   const [editingId, setEditingId] = useState(null);
   const [draftName, setDraftName] = useState("");
-  const [draftCuisine, setDraftCuisine] = useState("");
 
   const startEdit = (m) => {
     setEditingId(m.id);
     setDraftName(m.name);
-    setDraftCuisine(m.cuisine || "");
   };
 
   const cancelEdit = () => {
     setEditingId(null);
     setDraftName("");
-    setDraftCuisine("");
   };
 
   const saveEdit = () => {
     const name = draftName.trim();
     if (!name) return;
-    onUpdate(editingId, { name, cuisine: draftCuisine.trim() });
+    onUpdate(editingId, { name });
     cancelEdit();
   };
 
@@ -48,7 +45,6 @@ export default function MealsModal({
               <thead>
                 <tr>
                   <th>{t("name")}</th>
-                  <th>{t("cuisine")}</th>
                   <th></th>
                 </tr>
               </thead>
@@ -64,17 +60,6 @@ export default function MealsModal({
                         />
                       ) : (
                         m.name
-                      )}
-                    </td>
-                    <td>
-                      {editingId === m.id ? (
-                        <input
-                          className="input"
-                          value={draftCuisine}
-                          onChange={(e) => setDraftCuisine(e.target.value)}
-                        />
-                      ) : (
-                        m.cuisine
                       )}
                     </td>
                     <td>
@@ -98,7 +83,7 @@ export default function MealsModal({
                           <button
                             className="delete-btn"
                             onClick={() => onDelete(m.id)}
-                            aria-label={t("delete")}   // 👈 added for accessibility
+                            aria-label={t("delete")}
                           >
                             ✕
                           </button>

@@ -54,10 +54,12 @@ body{
 
 /* Responsive square for Lottie */
 .lottie-wrap{
-  width: var(--box);
+  width: clamp(200px, 60vw, 400px);
   aspect-ratio: 1 / 1;
-  display:grid;
-  place-items:center;
+  display: flex;                  /* ✅ flex κεντράρισμα */
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
   filter:
     drop-shadow(0 30px 80px rgba(0,0,0,.65))
     drop-shadow(0 8px 16px rgba(0,0,0,.4));
@@ -150,12 +152,12 @@ body{
   text-align: center;
 }
 .suggestion-text {
-  font-size: 1.5rem;
-  font-style: italic;
-  font-family: "Comic Sans MS", "Segoe Script", cursive;
+  font-size: 1.6rem;            /* ✅ πιο μεγάλο */
+  font-style: normal;           /* ✅ όχι italic */
+  font-family: "Segoe UI", sans-serif; /* ✅ πιο καθαρή */
   color: #f1c40f;
   line-height: 1.6;
-  font-weight: 500;
+  font-weight: 600;
 }
 .suggestion-text::before,
 .suggestion-text::after {
@@ -174,7 +176,8 @@ body{
 .modal-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.65);
+  background: rgba(0,0,0,0.55);
+  backdrop-filter: blur(4px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -315,18 +318,17 @@ button:focus {
 
 /* --- Section Titles --- */
 .recipe-section.akis h3 {
-  color: #f43f5e; /* κόκκινο για Άκη */
+  color: #f43f5e;
 }
-
 .recipe-section.argiro h3 {
-  color: #9333ea; /* μωβ για Αργυρώ */
+  color: #9333ea;
 }
 
 /* --- Grid Layout --- */
 .recipe-grid {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;   /* στο κέντρο */
+  justify-content: center;
   gap: 1.5rem;
   margin-top: 1rem;
 }
@@ -342,7 +344,6 @@ button:focus {
   text-align: center;
   transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
-
 .recipe-card:hover {
   transform: translateY(-6px) scale(1.02);
   box-shadow: 0 10px 22px rgba(0,0,0,0.45);
@@ -363,14 +364,12 @@ button:focus {
   margin: 0.8rem 0 0.5rem;
   color: white;
 }
-
 .recipe-title a {
   text-decoration: none;
   color: inherit;
 }
-
 .recipe-title a:hover {
-  color: #38bdf8; /* ωραίο γαλάζιο hover */
+  color: #38bdf8;
 }
 
 /* --- Snippet --- */
@@ -389,7 +388,72 @@ button:focus {
 .fallback-msg {
   font-size: 1rem;
   font-style: italic;
-  color: #facc15; /* κίτρινο */
+  color: #facc15;
   margin: 1rem 0;
   text-align: center;
+}
+.header {
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  position: sticky;
+  top: 0;
+  background: #0f172a;
+  z-index: 10;
+}
+
+/* === 📱 Mobile Responsive Fixes === */
+@media (max-width: 640px) {
+  /* Κουμπί γλώσσας να μην μπαίνει πάνω από τα υπόλοιπα */
+  .lang-switch {
+    position: static;
+    margin: 0 auto 12px;
+    justify-content: center;
+    background: rgba(0,0,0,0.25);
+  }
+
+  .suggestion-text {
+    font-size: 1.25rem;  /* πιο μικρό αλλά readable στο κινητό */
+    line-height: 1.6;
+    padding: 0 8px;
+  }
+
+  .recipe-grid {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .recipe-card {
+    flex: 1 1 100%;
+    max-width: 92%;
+  }
+
+  button,
+  .button {
+    width: 100%;
+    font-size: 1rem;
+    padding: 0.8rem;
+    margin-top: 0.5rem;
+  }
+
+  .modal {
+    width: 95%;
+    max-width: none;
+    height: auto;
+    border-radius: 16px;
+    padding: 20px;
+  }
+
+  .modal-actions button {
+    width: 100%;   /* ✅ full width κουμπιά */
+    margin: 6px 0;
+  }
+
+  .lottie-wrap {
+    width: 80%;    /* ✅ πιο compact */
+    max-width: 300px;
+  }
+
 }

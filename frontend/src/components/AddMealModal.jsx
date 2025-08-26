@@ -5,7 +5,6 @@ import { useTranslation } from "react-i18next";
 export default function AddMealModal({ onClose, onSave }) {
   const { t } = useTranslation();
   const [name, setName] = useState("");
-  const [cuisine, setCuisine] = useState("");
 
   const handleNameChange = (e) => {
     const val = e.target.value;
@@ -19,7 +18,6 @@ export default function AddMealModal({ onClose, onSave }) {
     onSave({
       id: crypto.randomUUID?.() || String(Date.now()),
       name: trimmed,
-      cuisine: cuisine.trim(),
     });
     onClose();
   };
@@ -37,15 +35,6 @@ export default function AddMealModal({ onClose, onSave }) {
               onChange={handleNameChange}
               placeholder="π.χ. σνίτζελ με πατάτες"
               autoFocus
-            />
-          </label>
-          <label className="label">
-            <span>{t("cuisineOptional")}</span>
-            <input
-              className="input"
-              value={cuisine}
-              onChange={(e) => setCuisine(e.target.value)}
-              placeholder={t("exampleCuisine")}
             />
           </label>
           <div className="modal-actions">
