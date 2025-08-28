@@ -150,14 +150,22 @@ export default function App() {
           <button
             className="btn btn-primary"
             onClick={async () => {
-                // 1️⃣ Scroll στο Lottie αμέσως
-                scrollTo(lottieRef, 40);
 
-                // 2️⃣ Κάνε fetch
-                await suggestMeal();
-
-                // 3️⃣ Scroll στα αποτελέσματα
-                setTimeout(scrollToResults, 200);
++                // 1️⃣ Καθάρισμα προηγούμενου αποτελέσματος
++                setSuggested(null);
++
++                // 2️⃣ Ενεργοποίηση loading state
++                setLoading(true);
++
++                // 3️⃣ Scroll στο loading Lottie μόλις εμφανιστεί
++                setTimeout(() => scrollTo(lottieRef, 40), 50);
++
++                // 4️⃣ Εκτέλεση fetch
++                await suggestMeal();
++
++                // 5️⃣ Όταν έρθουν τα αποτελέσματα → scroll εκεί
++                setTimeout(scrollToResults, 200);
++
             }}
             disabled={loading || cooldown}
           >

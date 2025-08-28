@@ -253,7 +253,6 @@ button:focus {
   outline: none;
 }
 
-/* === Language Toggle (πάνω δεξιά, compact) === */
 .lang-switch {
   position: fixed;
   top: calc(12px + env(safe-area-inset-top));
@@ -261,12 +260,11 @@ button:focus {
   z-index: 3000;
 
   display: flex;
-  gap: 3px;
+  gap: 4px;
   padding: 2px 4px;
 
   background: rgba(0,0,0,0.35);
   border-radius: 9999px;
-  -webkit-backdrop-filter: blur(6px);
   backdrop-filter: blur(6px);
 }
 
@@ -275,28 +273,38 @@ button:focus {
   align-items: center;
   gap: 2px;
   padding: 2px 5px;
-  font-size: 11px;          /* πιο μικρό */
+  font-size: 11px;
   font-weight: 600;
   color: white;
   background: transparent;
   border: none;
   border-radius: 9999px;
   cursor: pointer;
-  transition: none;         /* ⬅️ χωρίς hover animation */
+  transition: none;      /* ⬅️ χωρίς hover animation */
+  flex: 0 0 auto;        /* ⬅️ σταθερό μέγεθος */
+  box-shadow: none;
+  min-width: 38px;       /* ⬅️ αποφυγή jump στο active */
+}
+
+/* Ακύρωση global hover/active/focus */
+.lang-switch .lang-btn:hover,
+.lang-switch .lang-btn:active,
+.lang-switch .lang-btn:focus {
+  background: transparent !important;
+  color: inherit !important;
+  transform: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.lang-switch .lang-btn:focus-visible {
+  outline: none !important;
 }
 
 .lang-switch .lang-btn .flag {
-  font-size: 12px;          /* μικρότερη σημαία */
+  font-size: 12px;
 }
 
-.lang-switch .lang-btn.active {
-  background: #facc15;
-  color: black;
-}
-.lang-switch .lang-btn.active:nth-child(2) {
-  background: #22c55e;
-  color: white;
-}
 
 /* --- Recipe Section --- */
 .recipe-section {
@@ -415,6 +423,7 @@ button:focus {
   .lang-switch .lang-btn {
     font-size: 10px;
     padding: 1px 4px;
+    min-width: 34px; /* λίγο πιο στενό στο κινητό */
   }
 
   .lang-switch .lang-btn .flag {
