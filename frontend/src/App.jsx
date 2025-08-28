@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useRef,useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import AddMealModal from "./components/AddMealModal.jsx";
 import MealsModal from "./components/MealsModal.jsx";
@@ -14,7 +14,8 @@ export default function App() {
   const { t, i18n } = useTranslation();
   const loadExamplesNow = () => setMeals(resetToExamples());
   const deleteExamplesNow = () => setMeals((curr) => deleteExamplesOnly(curr));
-
+  const resultRef = useRef(null);
+  const lottieRef = useRef(null);
 
   // state
   const [meals, setMeals] = useState([]);
@@ -90,6 +91,12 @@ export default function App() {
       setTimeout(() => setCooldown(false), 1000); // cooldown 1 sec
     }
   };
+  // NEW: βοηθητικό scroll
+  const scrollToResults = () => {
+    if (!resultRef.current) return;
+    const y = resultRef.current.getBoundingClientRect().top + window.scrollY - 80; // λίγο πιο πάνω
+    window.scrollTo({ top: y, behavior: "smooth" });
+  };
 
   // helpers για να χωρίσουμε τα recipes
   const akisRecipes = recipes
@@ -108,6 +115,21 @@ export default function App() {
 
   return (
     <main className="page">
+        {/* 🔹 Μικρό switch γλώσσας επάνω-δεξιά */}
+      <div className="lang-switch" aria-label="Language">
+        <button
+          className={`lang-btn ${i18n.language.startsWith("en") ? "active" : ""}`}
+          onClick={() => i18n.changeLanguage("en")}
+        >
+          <span className="flag">🇬🇧</span> EN
+        </button>
+        <button
+          className={`lang-btn ${i18n.language.startsWith("el") ? "active" : ""}`}
+          onClick={() => i18n.changeLanguage("el")}
+        >
+          <span className="flag">🇬🇷</span> EL
+        </button>
+      </div>
       <h1 className="title">{t("title")}</h1>
 
       <section className="center">
@@ -125,7 +147,16 @@ export default function App() {
         <div className="controls">
           <button
             className="btn btn-primary"
-            onClick={suggestMeal}
+            onClick={async () => {
+              // πρώτο “βήμα”: πήγαινε λίγο κάτω από το Lottie
+              if (lottieRef.current){
+                const y1 = lottieRef.current.getBoundingClientRect().bottom + window.scrollY - 40;
+                window.scrollTo({ top: y1, behavior: "smooth" });
+              }
+              await suggestMeal();
+              // δεύτερο “βήμα”: πάνε στα αποτελέσματα
+              setTimeout(scrollToResults, 200);
+            }}
             disabled={loading || cooldown}
           >
             {t("suggestButton")}
@@ -137,6 +168,8 @@ export default function App() {
             </button>
           </div>
         </div>
+        {/* anchor για auto-scroll στα αποτελέσματα */}
+        <div ref={resultRef} />
 
         {meals.length === 0 && (
           <div className="empty">
