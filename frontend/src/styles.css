@@ -259,25 +259,26 @@ button:focus {
   justify-content: flex-end;
   align-items: center;
   padding: 4px 8px;
-  background: #0f172a;  /* ίδιο background */
+  background: transparent; /* ✅ καθαρό, χωρίς φόντο */
+  z-index: 10;
 }
 
 .lang-switch {
   display: flex;
-  padding: 2px;
-  background: rgba(0,0,0,0.25);
-  border-radius: 50%;
-  backdrop-filter: blur(4px);
 }
 
 .lang-switch .lang-btn {
-  font-size: 20px;   /* μέγεθος σημαίας */
-  line-height: 1;
-  padding: 4px;
-  background: transparent;
-  border: none;
-  border-radius: 50%;
+  all: unset;                 /* ✅ καθαρίζει τα inherited styles */
   cursor: pointer;
+  font-size: 22px;
+  line-height: 1;
+  border-radius: 50%;
+  transition: filter 0.2s ease;
+}
+
+.lang-switch .lang-btn:hover,
+.lang-switch .lang-btn:focus {
+  filter: drop-shadow(0 0 6px rgba(255,255,255,0.7));
 }
 
 
