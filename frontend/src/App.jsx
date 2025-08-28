@@ -1,4 +1,4 @@
-import { useRef,useEffect, useState } from "react";
+import { useRef, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import AddMealModal from "./components/AddMealModal.jsx";
 import MealsModal from "./components/MealsModal.jsx";
@@ -14,6 +14,7 @@ export default function App() {
   const { t, i18n } = useTranslation();
   const loadExamplesNow = () => setMeals(resetToExamples());
   const deleteExamplesNow = () => setMeals((curr) => deleteExamplesOnly(curr));
+
   // state
   const [meals, setMeals] = useState([]);
   const [showAdd, setShowAdd] = useState(false);
@@ -25,10 +26,11 @@ export default function App() {
   const [cooldown, setCooldown] = useState(false);
   const [fallback, setFallback] = useState(false);
 
-  // γενική συνάρτηση scroll
-
+  // refs
   const resultRef = useRef(null);
   const lottieRef = useRef(null);
+
+  // scroll helpers
   const scrollTo = (ref, offset = 60) => {
     if (!ref.current) return;
     const y = ref.current.getBoundingClientRect().top + window.scrollY - offset;
@@ -36,14 +38,17 @@ export default function App() {
   };
   const scrollToResults = () => scrollTo(resultRef);
 
+  // scroll στο κάτω Lottie όταν αρχίζει το loading
   useEffect(() => {
-  if (loading && lottieRef.current) {
-    // ✅ Μόλις γίνει render το loading Lottie → scroll εκεί
-    scrollTo(lottieRef, 40);
-      }
-    }, [loading]);
-
-
+    if (loading) {
+      const id = setTimeout(() => {
+        if (lottieRef.current) {
+          scrollTo(lottieRef, 40);
+        }
+      }, 50);
+      return () => clearTimeout(id);
+    }
+  }, [loading]);
 
   // load meals on first mount
   useEffect(() => {
@@ -85,19 +90,21 @@ export default function App() {
 
       // 🔹 Fetch recipes from Google API
       if (data.suggestion) {
-        const recipeRes = await fetch("https://your-next-meal.onrender.com/recipes", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ query: data.suggestion }),
-        });
+        const recipeRes = await fetch(
+          "https://your-next-meal.onrender.com/recipes",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ query: data.suggestion }),
+          }
+        );
         const recipeData = await recipeRes.json();
         setRecipes(recipeData.recipes || []);
         setFallback(recipeData.fallback || false);
-
       }
     } catch (err) {
       console.error(err);
-      alert(err.message); // ✨ Εδώ ο χρήστης βλέπει το όριο ξεκάθαρα
+      alert(err.message);
       setSuggested(null);
       setDailyTip(null);
       setRecipes([]);
@@ -106,7 +113,6 @@ export default function App() {
       setTimeout(() => setCooldown(false), 1000); // cooldown 1 sec
     }
   };
-
 
   // helpers για να χωρίσουμε τα recipes
   const akisRecipes = recipes
@@ -125,19 +131,32 @@ export default function App() {
 
   return (
     <main className="page">
-       <header className="header">
+      {/* HEADER με γλώσσες */}
+      <header className="header">
         <div className="lang-switch" aria-label="Language">
-          <button>
-            className={`lang-btn ${i18n.language.startsWith("en") ? "active" : ""}`}
+          <button
+            className={`lang-btn ${
+              i18n.language.startsWith("en") ? "active" : ""
+            }`}
             onClick={() => i18n.changeLanguage("en")}
           >
             <span className="flag">🇬🇧</span> EN
           </button>
+          <button
+            className={`lang-btn ${
+              i18n.language.startsWith("el") ? "active" : ""
+            }`}
+            onClick={() => i18n.changeLanguage("el")}
+          >
+            <span className="flag">🇬🇷</span> EL
+          </button>
         </div>
       </header>
+
       <h1 className="title">{t("title")}</h1>
 
       <section className="center">
+        {/* Κεντρικό Lottie */}
         <div className="lottie-wrap">
           <DotLottieReact
             src="https://lottie.host/54e34844-99c3-4559-b86c-690aded4c5cd/HFMFfwyYwB.lottie"
@@ -145,16 +164,22 @@ export default function App() {
             autoplay
             mode="normal"
             background="transparent"
-            style={{ width: 400, height: 400, margin: "0 auto", display: "block" }}
+            style={{
+              width: 400,
+              height: 400,
+              margin: "0 auto",
+              display: "block",
+            }}
           />
         </div>
 
+        {/* Κουμπιά */}
         <div className="controls">
           <button
             className="btn btn-primary"
             onClick={async () => {
               setSuggested(null);
-              await suggestMeal();      // εδώ το suggestMeal() θέτει loading = true στην αρχή
+              await suggestMeal();
               setTimeout(scrollToResults, 200);
             }}
             disabled={loading || cooldown}
@@ -163,11 +188,15 @@ export default function App() {
           </button>
 
           <div className="controls-row">
-            <button className="btn btn-outline" onClick={() => setShowMeals(true)}>
+            <button
+              className="btn btn-outline"
+              onClick={() => setShowMeals(true)}
+            >
               {t("yourMeals")}
             </button>
           </div>
         </div>
+
         {/* anchor για auto-scroll στα αποτελέσματα */}
         <div ref={resultRef} />
 
@@ -183,7 +212,7 @@ export default function App() {
           </div>
         )}
 
-        {/* Suggestion Box with Loader */}
+        {/* Suggestion Box με Loader */}
         {(loading || suggested) && (
           <div className="suggestion-box" ref={lottieRef}>
             {loading ? (
@@ -200,76 +229,77 @@ export default function App() {
                 {dailyTip && <p className="tip-text">💡 {dailyTip}</p>}
 
                 {/* ✅ Recipes section */}
-{recipes.length > 0 && (
-  <div className="recipes-container">
-    {fallback && (
-      <p className="fallback-msg">
-        Με αυτό το γεύμα δεν βρήκαμε αποτελέσματα, αλλά έχουμε τις τοπ επιλογές των δύο σεφ παρακάτω 🍽️
-      </p>
-    )}
+                {recipes.length > 0 && (
+                  <div className="recipes-container">
+                    {fallback && (
+                      <p className="fallback-msg">
+                        Με αυτό το γεύμα δεν βρήκαμε αποτελέσματα, αλλά έχουμε
+                        τις τοπ επιλογές των δύο σεφ παρακάτω 🍽️
+                      </p>
+                    )}
 
-    {akisRecipes.length > 0 && (
-      <div className="recipe-section akis">
-        <h3>👨‍🍳 Συνταγές Άκη</h3>
-        <div className="recipe-grid">
-          {akisRecipes.map((r, idx) => (
-            <div className="recipe-card" key={idx}>
-              <img
-                src={
-                  r.image ||
-                  "https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&dpr=1"
-                }
-                alt={r.title}
-                className="recipe-img"
-              />
-              <h4 className="recipe-title">
-                <a href={r.link} target="_blank" rel="noreferrer">
-                  {r.title}
-                </a>
-              </h4>
-              <p className="recipe-snippet">{r.snippet}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    )}
+                    {akisRecipes.length > 0 && (
+                      <div className="recipe-section akis">
+                        <h3>👨‍🍳 Συνταγές Άκη</h3>
+                        <div className="recipe-grid">
+                          {akisRecipes.map((r, idx) => (
+                            <div className="recipe-card" key={idx}>
+                              <img
+                                src={
+                                  r.image ||
+                                  "https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&dpr=1"
+                                }
+                                alt={r.title}
+                                className="recipe-img"
+                              />
+                              <h4 className="recipe-title">
+                                <a href={r.link} target="_blank" rel="noreferrer">
+                                  {r.title}
+                                </a>
+                              </h4>
+                              <p className="recipe-snippet">{r.snippet}</p>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
 
-    {argiroRecipes.length > 0 && (
-      <div className="recipe-section argiro">
-        <h3>👩‍🍳 Συνταγές Αργυρώς</h3>
-        <div className="recipe-grid">
-          {argiroRecipes.map((r, idx) => (
-            <div className="recipe-card" key={idx}>
-              <img
-                src={
-                  r.image ||
-                  "https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&dpr=1"
-                }
-                alt={r.title}
-                className="recipe-img"
-              />
-              <h4 className="recipe-title">
-                <a href={r.link} target="_blank" rel="noreferrer">
-                  {r.title}
-                </a>
-              </h4>
-              <p className="recipe-snippet">{r.snippet}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    )}
-  </div>
-)}
-
-
+                    {argiroRecipes.length > 0 && (
+                      <div className="recipe-section argiro">
+                        <h3>👩‍🍳 Συνταγές Αργυρώς</h3>
+                        <div className="recipe-grid">
+                          {argiroRecipes.map((r, idx) => (
+                            <div className="recipe-card" key={idx}>
+                              <img
+                                src={
+                                  r.image ||
+                                  "https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&dpr=1"
+                                }
+                                alt={r.title}
+                                className="recipe-img"
+                              />
+                              <h4 className="recipe-title">
+                                <a href={r.link} target="_blank" rel="noreferrer">
+                                  {r.title}
+                                </a>
+                              </h4>
+                              <p className="recipe-snippet">{r.snippet}</p>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
               </>
             )}
           </div>
         )}
       </section>
 
-      {showAdd && <AddMealModal onClose={() => setShowAdd(false)} onSave={addMeal} />}
+      {showAdd && (
+        <AddMealModal onClose={() => setShowAdd(false)} onSave={addMeal} />
+      )}
       {showMeals && (
         <MealsModal
           meals={meals}
