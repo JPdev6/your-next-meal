@@ -252,58 +252,34 @@ button:focus {
   outline: none;
 }
 
-/* Header sticky πάνω */
 .header {
-  position: sticky;
-  top: 0;
-  width: 100%;
+  position: relative;   /* ✅ ΔΕΝ ακολουθεί */
+  height: 36px;
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  padding: 8px 12px;
-  background: #0f172a;
-  z-index: 10;
+  padding: 4px 8px;
+  background: #0f172a;  /* ίδιο background */
 }
 
-/* Γλώσσες — μικρό & διακριτικό */
 .lang-switch {
   display: flex;
-  gap: 4px;
-  padding: 2px 4px;
+  padding: 2px;
   background: rgba(0,0,0,0.25);
-  border-radius: 9999px;
+  border-radius: 50%;
   backdrop-filter: blur(4px);
 }
+
 .lang-switch .lang-btn {
-  font-size: 11px;
-  padding: 2px 6px;
-  font-weight: 600;
-  color: white !important;
-  background: transparent !important;
-  border: none !important;
-  border-radius: 9999px;
+  font-size: 20px;   /* μέγεθος σημαίας */
+  line-height: 1;
+  padding: 4px;
+  background: transparent;
+  border: none;
+  border-radius: 50%;
   cursor: pointer;
-  min-width: 34px;
-  box-shadow: none !important;
 }
-.lang-switch .lang-btn .flag { font-size: 12px; }
-.lang-switch .lang-btn.active {
-  background: #facc15 !important;
-  color: black !important;
-}
-.lang-switch .lang-btn.active:nth-child(2) {
-  background: #22c55e !important;
-  color: white !important;
-}
-.lang-switch .lang-btn:hover,
-.lang-switch .lang-btn:active,
-.lang-switch .lang-btn:focus {
-  background: transparent !important;
-  color: inherit !important;
-  transform: none !important;
-  outline: none !important;
-  box-shadow: none !important;
-}
+
 
 /* --- Recipe Section --- */
 .recipe-section {
@@ -394,6 +370,7 @@ button:focus {
 
 /* 📱 Mobile tweaks */
 @media (max-width: 640px) {
+
   .lang-switch {
     padding: 1px 3px;
     gap: 2px;
