@@ -268,6 +268,18 @@ button:focus {
   backdrop-filter: blur(6px);
 }
 
+.lang-switch {
+  position: absolute;   /* ✅ δεν μένει καρφωμένο, φεύγει με το scroll */
+  top: 12px;
+  right: 12px;
+  display: flex;
+  gap: 3px;
+  padding: 2px 4px;
+  background: rgba(0,0,0,0.35);
+  border-radius: 9999px;
+  backdrop-filter: blur(6px);
+}
+
 .lang-switch .lang-btn {
   display: flex;
   align-items: center;
@@ -280,31 +292,18 @@ button:focus {
   border: none;
   border-radius: 9999px;
   cursor: pointer;
-  transition: none;      /* ⬅️ χωρίς hover animation */
-  flex: 0 0 auto;        /* ⬅️ σταθερό μέγεθος */
-  box-shadow: none;
-  min-width: 38px;       /* ⬅️ αποφυγή jump στο active */
+  transition: none;
+  min-width: 38px;   /* ίδιο πλάτος EN/EL */
 }
 
-/* Ακύρωση global hover/active/focus */
-.lang-switch .lang-btn:hover,
-.lang-switch .lang-btn:active,
-.lang-switch .lang-btn:focus {
-  background: transparent !important;
-  color: inherit !important;
-  transform: none !important;
-  outline: none !important;
-  box-shadow: none !important;
+.lang-switch .lang-btn.active {
+  background: #facc15; /* EN */
+  color: black;
 }
-
-.lang-switch .lang-btn:focus-visible {
-  outline: none !important;
+.lang-switch .lang-btn.active:nth-child(2) {
+  background: #22c55e; /* EL */
+  color: white;
 }
-
-.lang-switch .lang-btn .flag {
-  font-size: 12px;
-}
-
 
 /* --- Recipe Section --- */
 .recipe-section {
@@ -413,9 +412,12 @@ button:focus {
 
 /* === 📱 Mobile Responsive Fixes === */
 @media (max-width: 640px) {
+
+/* 📱 Mobile tweaks */
+@media (max-width: 640px) {
   .lang-switch {
-    top: calc(8px + env(safe-area-inset-top));
-    right: calc(8px + env(safe-area-inset-right));
+    top: 8px;
+    right: 8px;
     padding: 1px 3px;
     gap: 2px;
   }
@@ -423,12 +425,13 @@ button:focus {
   .lang-switch .lang-btn {
     font-size: 10px;
     padding: 1px 4px;
-    min-width: 34px; /* λίγο πιο στενό στο κινητό */
+    min-width: 34px; /* πιο compact στο κινητό */
   }
 
   .lang-switch .lang-btn .flag {
     font-size: 11px;
   }
+
 
   .suggestion-text {
     font-size: 1.25rem;  /* πιο μικρό αλλά readable στο κινητό */
