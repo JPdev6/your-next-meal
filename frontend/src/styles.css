@@ -261,9 +261,6 @@ button:focus {
   background: rgba(0,0,0,0.25);
   border-radius: 9999px;
   backdrop-filter: blur(4px);
-
-  flex: 0 0 auto;   /* ✅ δεν τεντώνεται */
-  width: auto;
 }
 
 .lang-switch .lang-btn {
@@ -275,7 +272,6 @@ button:focus {
   border: none;
   border-radius: 9999px;
   cursor: pointer;
-  flex: 0 0 auto;
   min-width: 34px;
 }
 
@@ -391,10 +387,10 @@ button:focus {
   top: 0;
   width: 100%;
   display: flex;
-  justify-content: flex-end;   /* ✅ κουμπί δεξιά */
+  justify-content: flex-end;   /* κουμπί δεξιά */
   align-items: center;
   padding: 8px 12px;
-  background: transparent;     /* ή #0f172a αν θες μπάρα */
+  background: #0f172a;         /* ή transparent αν δεν θες μπάρα */
   z-index: 10;
 }
 

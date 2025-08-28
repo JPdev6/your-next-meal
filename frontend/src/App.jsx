@@ -127,7 +127,7 @@ export default function App() {
     <main className="page">
        <header className="header">
         <div className="lang-switch" aria-label="Language">
-          <button
+          <button>
             className={`lang-btn ${i18n.language.startsWith("en") ? "active" : ""}`}
             onClick={() => i18n.changeLanguage("en")}
           >
