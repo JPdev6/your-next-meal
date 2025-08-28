@@ -261,14 +261,14 @@ button:focus {
   background: rgba(0,0,0,0.25);
   border-radius: 9999px;
   backdrop-filter: blur(4px);
-  position: relative;   /* ✅ δεν επιπλέει */
-  flex: 0 0 auto;       /* ✅ δεν τεντώνεται */
+
+  flex: 0 0 auto;   /* ✅ δεν τεντώνεται */
   width: auto;
 }
 
 .lang-switch .lang-btn {
-  font-size: 10px;        /* ✅ πολύ μικρό */
-  padding: 2px 5px;
+  font-size: 11px;
+  padding: 2px 6px;
   font-weight: 600;
   color: white;
   background: transparent;
@@ -276,11 +276,11 @@ button:focus {
   border-radius: 9999px;
   cursor: pointer;
   flex: 0 0 auto;
-  min-width: auto;
+  min-width: 34px;
 }
 
 .lang-switch .lang-btn .flag {
-  font-size: 11px;
+  font-size: 12px;
 }
 
 .lang-switch .lang-btn.active {
@@ -385,14 +385,16 @@ button:focus {
   margin: 1rem 0;
   text-align: center;
 }
+/* Header sticky πάνω */
 .header {
-  margin-bottom: 1rem;
+  position: sticky;
+  top: 0;
+  width: 100%;
   display: flex;
-  justify-content: flex-end;
+  justify-content: flex-end;   /* ✅ κουμπί δεξιά */
   align-items: center;
-  padding: 0.5rem 1rem;
-  padding: 0.5rem 1rem;
-  background: #0f172a;
+  padding: 8px 12px;
+  background: transparent;     /* ή #0f172a αν θες μπάρα */
   z-index: 10;
 }
 
