@@ -133,12 +133,6 @@ export default function App() {
           >
             <span className="flag">🇬🇧</span> EN
           </button>
-          <button
-            className={`lang-btn ${i18n.language.startsWith("el") ? "active" : ""}`}
-            onClick={() => i18n.changeLanguage("el")}
-          >
-            <span className="flag">🇬🇷</span> EL
-          </button>
         </div>
       </header>
       <h1 className="title">{t("title")}</h1>
