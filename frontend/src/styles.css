@@ -256,38 +256,37 @@ button:focus {
 /* === Language Toggle (πάνω δεξιά, compact) === */
 .lang-switch {
   position: fixed;
-  top: calc(8px + env(safe-area-inset-top));   /* υποστήριξη για notch */
-  right: calc(8px + env(safe-area-inset-right));
+  top: calc(12px + env(safe-area-inset-top));
+  right: calc(12px + env(safe-area-inset-right));
   z-index: 3000;
 
   display: flex;
-  gap: 4px;
-  padding: 2px 6px;
+  gap: 3px;
+  padding: 2px 4px;
 
-  background: rgba(0,0,0,0.3);
+  background: rgba(0,0,0,0.35);
   border-radius: 9999px;
   -webkit-backdrop-filter: blur(6px);
   backdrop-filter: blur(6px);
 }
 
-/* κουμπιά */
 .lang-switch .lang-btn {
   display: flex;
   align-items: center;
   gap: 2px;
-  padding: 2px 6px;
-  font-size: 12px;       /* μικρό μέγεθος */
+  padding: 2px 5px;
+  font-size: 11px;          /* πιο μικρό */
   font-weight: 600;
   color: white;
   background: transparent;
   border: none;
   border-radius: 9999px;
   cursor: pointer;
-  transition: background 0.2s ease, transform 0.15s ease;
+  transition: none;         /* ⬅️ χωρίς hover animation */
 }
 
 .lang-switch .lang-btn .flag {
-  font-size: 14px;
+  font-size: 12px;          /* μικρότερη σημαία */
 }
 
 .lang-switch .lang-btn.active {
@@ -297,12 +296,6 @@ button:focus {
 .lang-switch .lang-btn.active:nth-child(2) {
   background: #22c55e;
   color: white;
-}
-.lang-switch .lang-btn:hover:not(.active) {
-  background: rgba(255, 255, 255, 0.15);
-}
-.lang-switch .lang-btn:active {
-  transform: scale(0.95);
 }
 
 /* --- Recipe Section --- */
@@ -412,13 +405,20 @@ button:focus {
 
 /* === 📱 Mobile Responsive Fixes === */
 @media (max-width: 640px) {
-  /* Κουμπί γλώσσας να μην μπαίνει πάνω από τα υπόλοιπα */
-  .lang-switch .lang-btn {
-    font-size: 11px;
-    padding: 2px 5px; /* πιο στενό */
+  .lang-switch {
+    top: calc(8px + env(safe-area-inset-top));
+    right: calc(8px + env(safe-area-inset-right));
+    padding: 1px 3px;
+    gap: 2px;
   }
+
+  .lang-switch .lang-btn {
+    font-size: 10px;
+    padding: 1px 4px;
+  }
+
   .lang-switch .lang-btn .flag {
-    font-size: 13px;
+    font-size: 11px;
   }
 
   .suggestion-text {

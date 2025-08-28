@@ -14,9 +14,6 @@ export default function App() {
   const { t, i18n } = useTranslation();
   const loadExamplesNow = () => setMeals(resetToExamples());
   const deleteExamplesNow = () => setMeals((curr) => deleteExamplesOnly(curr));
-  const resultRef = useRef(null);
-  const lottieRef = useRef(null);
-
   // state
   const [meals, setMeals] = useState([]);
   const [showAdd, setShowAdd] = useState(false);
@@ -28,6 +25,16 @@ export default function App() {
   const [cooldown, setCooldown] = useState(false);
   const [fallback, setFallback] = useState(false);
 
+  // γενική συνάρτηση scroll
+
+  const resultRef = useRef(null);
+  const lottieRef = useRef(null);
+  const scrollTo = (ref, offset = 60) => {
+    if (!ref.current) return;
+    const y = ref.current.getBoundingClientRect().top + window.scrollY - offset;
+    window.scrollTo({ top: y, behavior: "smooth" });
+  };
+  const scrollToResults = () => scrollTo(resultRef);
 
 
   // load meals on first mount
@@ -91,12 +98,7 @@ export default function App() {
       setTimeout(() => setCooldown(false), 1000); // cooldown 1 sec
     }
   };
-  // NEW: βοηθητικό scroll
-  const scrollToResults = () => {
-    if (!resultRef.current) return;
-    const y = resultRef.current.getBoundingClientRect().top + window.scrollY - 80; // λίγο πιο πάνω
-    window.scrollTo({ top: y, behavior: "smooth" });
-  };
+
 
   // helpers για να χωρίσουμε τα recipes
   const akisRecipes = recipes
@@ -148,14 +150,14 @@ export default function App() {
           <button
             className="btn btn-primary"
             onClick={async () => {
-              // πρώτο “βήμα”: πήγαινε λίγο κάτω από το Lottie
-              if (lottieRef.current){
-                const y1 = lottieRef.current.getBoundingClientRect().bottom + window.scrollY - 40;
-                window.scrollTo({ top: y1, behavior: "smooth" });
-              }
-              await suggestMeal();
-              // δεύτερο “βήμα”: πάνε στα αποτελέσματα
-              setTimeout(scrollToResults, 200);
+                // 1️⃣ Scroll στο Lottie αμέσως
+                scrollTo(lottieRef, 40);
+
+                // 2️⃣ Κάνε fetch
+                await suggestMeal();
+
+                // 3️⃣ Scroll στα αποτελέσματα
+                setTimeout(scrollToResults, 200);
             }}
             disabled={loading || cooldown}
           >
@@ -185,7 +187,7 @@ export default function App() {
 
         {/* Suggestion Box with Loader */}
         {(loading || suggested) && (
-          <div className="suggestion-box">
+          <div className="suggestion-box" ref={lottieRef}>
             {loading ? (
               <DotLottieReact
                 src="https://lottie.host/23c74f53-239a-4c22-9fc5-513ea9bcb7ac/IxQZn4kkZo.lottie"
