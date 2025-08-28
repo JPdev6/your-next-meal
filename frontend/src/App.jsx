@@ -159,7 +159,7 @@ export default function App() {
 +                setLoading(true);
 +
 +                // 3️⃣ Scroll στο loading Lottie μόλις εμφανιστεί
-+                setTimeout(() => scrollTo(lottieRef, 40), 50);
++                setTimeout(() => scrollTo(lottieRef, 40), 150);
 +
 +                // 4️⃣ Εκτέλεση fetch
 +                await suggestMeal();
