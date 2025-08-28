@@ -36,6 +36,14 @@ export default function App() {
   };
   const scrollToResults = () => scrollTo(resultRef);
 
+  useEffect(() => {
+  if (loading && lottieRef.current) {
+    // ✅ Μόλις γίνει render το loading Lottie → scroll εκεί
+    scrollTo(lottieRef, 40);
+      }
+    }, [loading]);
+
+
 
   // load meals on first mount
   useEffect(() => {
@@ -151,22 +159,9 @@ export default function App() {
           <button
             className="btn btn-primary"
             onClick={async () => {
-
-+                // 1️⃣ Καθάρισμα προηγούμενου αποτελέσματος
-+                setSuggested(null);
-+
-+                // 2️⃣ Ενεργοποίηση loading state
-+                setLoading(true);
-+
-+                // 3️⃣ Scroll στο loading Lottie μόλις εμφανιστεί
-+                setTimeout(() => scrollTo(lottieRef, 40), 150);
-+
-+                // 4️⃣ Εκτέλεση fetch
-+                await suggestMeal();
-+
-+                // 5️⃣ Όταν έρθουν τα αποτελέσματα → scroll εκεί
-+                setTimeout(scrollToResults, 200);
-+
+              setSuggested(null);
+              await suggestMeal();      // εδώ το suggestMeal() θέτει loading = true στην αρχή
+              setTimeout(scrollToResults, 200);
             }}
             disabled={loading || cooldown}
           >
