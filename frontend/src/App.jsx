@@ -117,21 +117,22 @@ export default function App() {
 
   return (
     <main className="page">
-        {/* 🔹 Μικρό switch γλώσσας επάνω-δεξιά */}
-      <div className="lang-switch" aria-label="Language">
-        <button
-          className={`lang-btn ${i18n.language.startsWith("en") ? "active" : ""}`}
-          onClick={() => i18n.changeLanguage("en")}
-        >
-          <span className="flag">🇬🇧</span> EN
-        </button>
-        <button
-          className={`lang-btn ${i18n.language.startsWith("el") ? "active" : ""}`}
-          onClick={() => i18n.changeLanguage("el")}
-        >
-          <span className="flag">🇬🇷</span> EL
-        </button>
-      </div>
+       <header className="header">
+        <div className="lang-switch" aria-label="Language">
+          <button
+            className={`lang-btn ${i18n.language.startsWith("en") ? "active" : ""}`}
+            onClick={() => i18n.changeLanguage("en")}
+          >
+            <span className="flag">🇬🇧</span> EN
+          </button>
+          <button
+            className={`lang-btn ${i18n.language.startsWith("el") ? "active" : ""}`}
+            onClick={() => i18n.changeLanguage("el")}
+          >
+            <span className="flag">🇬🇷</span> EL
+          </button>
+        </div>
+      </header>
       <h1 className="title">{t("title")}</h1>
 
       <section className="center">
